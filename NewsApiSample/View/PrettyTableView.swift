@@ -53,23 +53,6 @@ class PrettyTableView: UITableView {
         tableFooterView = footerView
     }
     
-    override func dequeueReusableCell(withIdentifier identifier: String, for indexPath: IndexPath) -> UITableViewCell {
-        
-        isUserInteractionEnabled = true
-        let cell = super.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
-        cell.contentView.backgroundColor = (indexPath.row % 2) == 0 ? cellColor1 : cellColor2
-        
-        if indexPath.row+1 == dataSource?.tableView(self, numberOfRowsInSection: 0) {
-            
-            if !spinner.isAnimating{
-                
-                spinner.startAnimating()
-                self.onBottomRefreshTriggered()
-            }
-        }
-        return cell;
-    }
-    
     //MARK: UI action
     @objc private func onTopRefreshTriggered(){
         print(#function)
@@ -101,6 +84,23 @@ class PrettyTableView: UITableView {
         print(#function)
         
         spinner.stopAnimating();
+    }
+    
+    override func dequeueReusableCell(withIdentifier identifier: String, for indexPath: IndexPath) -> UITableViewCell {
+        
+        isUserInteractionEnabled = true
+        let cell = super.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
+        cell.contentView.backgroundColor = (indexPath.row % 2) == 0 ? cellColor1 : cellColor2
+        
+        if indexPath.row+1 == dataSource?.tableView(self, numberOfRowsInSection: 0) {
+            
+            if !spinner.isAnimating{
+                
+                spinner.startAnimating()
+                self.onBottomRefreshTriggered()
+            }
+        }
+        return cell;
     }
 }
 

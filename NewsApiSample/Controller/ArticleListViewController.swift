@@ -33,7 +33,40 @@ class ArticleListViewController: UIViewController{
         requestArticles()
     }
     
-    func requestArticles(){
+    //MARK: - UI setup
+    private func configureUI(){
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = backgroundColor
+    }
+    
+    private func configure(tableView: PrettyTableView){
+        
+        view.addSubview(tableView)
+        tableView.backgroundColor = backgroundColor
+        tableView.layer.cornerRadius = 6.0;
+        tableView.layer.masksToBounds = true
+        tableView.register(ArticleCell.self, forCellReuseIdentifier: articleCellIdentifier)
+        tableView.topRefreshHandler = {
+            self.updateArticles()
+        }
+        tableView.bottomRefreshHandler = {
+            self.requestArticles()
+        }
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+    
+    private func setupConstraints(){
+        
+        tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 24).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor).isActive = true
+    }
+    
+    //MARK: - Private 
+    private func requestArticles(){
         
         let page = Int.init(Float.init(articles.count)/Float.init(articlesPerPage))+1
         generalArticleService.getArticles(inAmountOf: articlesPerPage,
@@ -52,38 +85,7 @@ class ArticleListViewController: UIViewController{
         })
     }
     
-    func configureUI(){
-        
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = backgroundColor
-    }
-    
-    func configure(tableView: PrettyTableView){
-        
-        view.addSubview(tableView)
-        tableView.backgroundColor = backgroundColor
-        tableView.layer.cornerRadius = 6.0;
-        tableView.layer.masksToBounds = true
-        tableView.register(ArticleCell.self, forCellReuseIdentifier: articleCellIdentifier)
-        tableView.topRefreshHandler = {
-            self.updateArticles()
-        }
-        tableView.bottomRefreshHandler = {
-            self.requestArticles()
-        }
-        tableView.delegate = self
-        tableView.dataSource = self
-    }
-    
-    func setupConstraints(){
-        
-        tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 24).isActive = true
-        tableView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor).isActive = true
-        tableView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor).isActive = true
-    }
-    
-    func updateArticles(){
+    private func updateArticles(){
         
         generalArticleService.updateArticles { (result) in
             
@@ -103,7 +105,7 @@ class ArticleListViewController: UIViewController{
         }
     }
     
-    func appendArticles(newArticles: [Article]){
+    private func appendArticles(newArticles: [Article]){
         
         tableView.stopBottomRefresh()
         tableView.stopTopRefresh()
