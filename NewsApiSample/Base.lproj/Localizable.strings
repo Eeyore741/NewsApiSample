@@ -1,0 +1,19 @@
+/* 
+  Localizable.strings
+  NewsApiSample
+
+  Created by Vitaliy Kuznetsov on 21/07/2018.
+  Copyright © 2018 vitaliikuznetsov. All rights reserved.
+*/
+
+"LocalArticleServiceError: articles save error"="LocalArticleServiceError: articles save error";
+"LocalArticleServiceError: articles fetch error"="LocalArticleServiceError: articles fetch error";
+"LocalArticleServiceError: articles purge error"="LocalArticleServiceError: articles purge error";
+
+"RemoteArticleServiceError: articles fetch error"="RemoteArticleServiceError: articles fetch error";
+"RemoteArticleServiceError: articles processing error"="RemoteArticleServiceError: articles processing error";
+"RemoteArticleServiceError: articles request error"="RemoteArticleServiceError: articles request error";
+
+"ArticleListViewControllerError: general error title"="Error";
+
+"UIViewController+Alert: ActionClose"="Close";
